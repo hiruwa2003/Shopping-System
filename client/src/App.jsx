@@ -6,10 +6,12 @@ import Contact from "./Pages/Contact.jsx";
 import About from "./Pages/About.jsx";
 import Signup from "./Pages/SignUp.jsx";
 import Signin from "./Pages/Signin.jsx";
+import Header from "./components/Header.jsx";
 
 const App = () => {
   return (
     <div>
+       <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<Product />} />
