@@ -1,24 +1,71 @@
 import React, { useState } from "react";
 import { assets } from "../assets/assets.js";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-   
   });
+
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    // Clear error on change
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (!validate()) return; // stop submission if validation fails
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        alert("Login successful!");
+        window.location.href = "/verify-email";
+      } else {
+        alert(data.message || "Login failed!");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
+    }
   };
 
   return (
@@ -26,12 +73,8 @@ const Signin = () => {
       {/* LEFT IMAGE SECTION */}
       <div className="hidden md:flex w-1/2 bg-orange-500 items-center justify-center relative">
         <div className="text-white text-center px-10">
-          <h1 className="text-4xl font-bold mb-4">
-            GET ALL YOUR BUYING
-          </h1>
-          <h2 className="text-3xl font-semibold mb-4">
-            Problems solved
-          </h2>
+          <h1 className="text-4xl font-bold mb-4">GET ALL YOUR BUYING</h1>
+          <h2 className="text-3xl font-semibold mb-4">Problems solved</h2>
           <h3 className="text-4xl font-bold">TODAY</h3>
         </div>
 
@@ -50,7 +93,6 @@ const Signin = () => {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Email */}
             <div>
               <label className="block text-sm font-medium">Email</label>
@@ -62,6 +104,9 @@ const Signin = () => {
                 required
                 className="w-full border px-3 py-2 mt-1 outline-none"
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              )}
             </div>
 
             {/* Password */}
@@ -75,18 +120,21 @@ const Signin = () => {
                 required
                 className="w-full border px-3 py-2 mt-1 outline-none"
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
             </div>
 
-           <div className="flex items-center justify-between text-sm">
-  <label className="flex items-center gap-2 cursor-pointer">
-    <input type="checkbox" className="accent-blue-600" />
-    Remember Me
-  </label>
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" className="accent-blue-600" />
+                Remember Me
+              </label>
 
-  <span className="text-blue-600 cursor-pointer hover:underline">
-   <Link to="/forgot-password">Forgot Password?</Link>
-  </span>
-</div>
+              <span className="text-blue-600 cursor-pointer hover:underline">
+                <Link to="/forgot-password">Forgot Password?</Link>
+              </span>
+            </div>
 
             {/* Button */}
             <button
@@ -100,9 +148,7 @@ const Signin = () => {
           <p className="text-center text-sm mt-4">
             Don't have an account?{" "}
             <span className="text-blue-600 cursor-pointer hover:underline">
-              <Link to="/signup">
-              Sign up
-              </Link>
+              <Link to="/signup">Sign up</Link>
             </span>
           </p>
         </div>
