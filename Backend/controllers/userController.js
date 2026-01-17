@@ -20,11 +20,15 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Check if this is the admin email
+    const isAdmin = email === process.env.ADMIN_EMAIL;
+    
     const user = new userModel({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      role: isAdmin ? "admin" : "user",
     });
     await user.save();
 
@@ -38,6 +42,9 @@ export const register = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    // Return user data including role
+    return res.json({ success: true, user: { id: user._id, email: user.email, role: user.role } });
 
     //Sending Welcome Email
     const mailOption = {
@@ -89,7 +96,7 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ success: true });
+    return res.json({ success: true, user: { id: user._id, email: user.email, role: user.role } });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }

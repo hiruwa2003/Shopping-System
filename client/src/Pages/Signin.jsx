@@ -58,7 +58,16 @@ const Signin = () => {
 
       if (res.ok && data.success) {
         alert("Login successful!");
-        window.location.href = "/verify-email";
+        // Store user role in localStorage
+        if (data.user && data.user.role) {
+          localStorage.setItem("role", data.user.role);
+        }
+        // Redirect based on user role
+        if (data.user && data.user.role === "admin") {
+          window.location.href = "/admin-home";
+        } else {
+          window.location.href = "/user-home";
+        }
       } else {
         alert(data.message || "Login failed!");
       }

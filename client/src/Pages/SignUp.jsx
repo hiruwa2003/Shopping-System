@@ -74,7 +74,7 @@ const SignUp = () => {
 
       const data = await res.json();
 
-      if (res.ok) {
+      if (res.ok && data.success) {
         alert("Registration successful!");
         window.location.href = `/verify-email?email=${formData.email}`;
       } else {
