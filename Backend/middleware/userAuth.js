@@ -18,8 +18,17 @@ const userAuth = async (req, res, next) => {
         .json({ success: false, message: "Not Authorized. Login Again" });
     }
 
-    // ✅ attach user info safely
-    req.user = { userId: tokenDecode.id };
+    // ✅ Fetch user from database and attach full user info
+    const userModel = (await import("../models/userModel.js")).default;
+    const user = await userModel.findById(tokenDecode.id).select("-password");
+    
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User not found" });
+    }
+    
+    req.user = user;
 
     next();
   } catch (error) {

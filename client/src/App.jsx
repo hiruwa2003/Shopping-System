@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
+// Pages
 import Home from "./Pages/Home.jsx";
 import Product from "./Pages/Product.jsx";
 import Contact from "./Pages/Contact.jsx";
@@ -12,17 +13,29 @@ import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
 import UserHome from "./Pages/UserHome.jsx";
 import AdminHome from "./Pages/AdminHome.jsx";
+import AdminUsers from "./Pages/AdminUsers.jsx";
 
+// Components / Headers
 import Header from "./components/Header.jsx";
 import UserHeader from "./components/UserHeader.jsx";
 import AdminHeader from "./components/AdminHeader.jsx";
 
+// ✅ Optional: simple admin route protection
+const AdminRoute = ({ children }) => {
+  const role = localStorage.getItem("role");
+  return role === "admin" ? children : <Signin />;
+};
+
+const UserRoute = ({ children }) => {
+  const role = localStorage.getItem("role");
+  return role === "user" ? children : <Signin />;
+};
+
 const App = () => {
   const location = useLocation();
-
-  // 🔑 Simple header control (later JWT walin improve karanna puluwan)
   const role = localStorage.getItem("role");
 
+  // 🔑 Header control
   const renderHeader = () => {
     if (role === "admin") return <AdminHeader />;
     if (role === "user") return <UserHeader />;
@@ -30,7 +43,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       {renderHeader()}
 
       <Routes>
@@ -47,11 +60,36 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* User */}
-        <Route path="/user-home" element={<UserHome />} />
+        {/* User Protected */}
+        <Route
+          path="/user-home"
+          element={
+            <UserRoute>
+              <UserHome />
+            </UserRoute>
+          }
+        />
 
-        {/* Admin */}
-        <Route path="/admin-home" element={<AdminHome />} />
+        {/* Admin Protected */}
+        <Route
+          path="/admin-home"
+          element={
+            <AdminRoute>
+              <AdminHome />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminUsers />
+            </AdminRoute>
+          }
+        />
+
+        {/* Fallback */}
+        <Route path="*" element={<div className="p-6 text-xl">Page Not Found</div>} />
       </Routes>
     </div>
   );

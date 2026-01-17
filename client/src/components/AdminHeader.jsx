@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -9,10 +9,11 @@ import {
   FaWhatsapp,
   FaUserCircle,
   FaSignOutAlt,
+  FaArrowLeft,
 } from "react-icons/fa";
 
 const AdminHeader = () => {
-  const [open, setOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,13 +21,22 @@ const AdminHeader = () => {
     navigate("/signin");
   };
 
+  // Close menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = () => {
+      if (showMenu) setShowMenu(false);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [showMenu]);
+
   return (
     <>
       {/* TOP INFO BAR */}
       <div className="w-full bg-slate-950 text-gray-300 text-sm">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-9">
-
             {/* LEFT - EMAIL & PHONE */}
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
@@ -55,16 +65,14 @@ const AdminHeader = () => {
                 <FaWhatsapp />
               </a>
             </div>
-
           </div>
         </div>
       </div>
 
-      {/* MAIN NAVBAR */}
+      {/* MAIN ADMIN NAVBAR */}
       <nav className="w-full bg-slate-900 shadow-md">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-
             {/* LOGO */}
             <div className="flex items-center gap-2">
               <img
@@ -74,61 +82,47 @@ const AdminHeader = () => {
               />
               <span className="text-2xl font-bold text-white">
                 Ceylon<span className="text-3xl text-orange-400">Cart</span>
+                <span className="ml-2 text-sm text-gray-400">Admin</span>
               </span>
             </div>
 
-            {/* NAV LINKS */}
-            <div className="hidden md:flex gap-8">
-              {["Home", "Product", "About", "Contact"].map((item) => (
-                <Link
-                  key={item}
-                  to={`/${item === "Home" ? "" : item.toLowerCase()}`}
-                  className="relative text-white font-medium
-                             after:content-[''] after:absolute after:left-0
-                             after:-bottom-1 after:h-[2px] after:w-0
-                             after:bg-orange-600 after:transition-all
-                             after:duration-300 hover:after:w-full"
+            {/* RIGHT SIDE - PROFILE + LOGOUT */}
+            <div className="flex items-center gap-6">
+              {/* ADMIN DASHBOARD BUTTON */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setShowMenu(false); 
+                    navigate("/admin-home"); 
+                  }}
+                  className="flex items-center gap-2 text-white hover:text-orange-400 transition"
                 >
-                  {item}
-                </Link>
-              ))}
-            </div>
+                  <FaArrowLeft size={28} />
+                  <span className="hidden md:block">Admin Dashboard</span>
+                </button>
+              </div>
 
-            {/* ADMIN PROFILE */}
-            <div className="relative">
+              {/* ADMIN MENU DROPDOWN */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="flex items-center gap-2 text-white hover:text-orange-400 transition"
+                >
+                  <FaUserCircle size={28} />
+                  <span className="hidden md:block">Admin</span>
+                </button>
+              </div>
+
+              {/* LOGOUT BUTTON */}
               <button
-                onClick={() => setOpen(!open)}
-                className="flex items-center gap-2 text-white hover:text-orange-400"
+                onClick={handleLogout}
+                className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 
+                           text-white px-4 py-2 rounded-lg transition"
               >
-                <FaUserCircle size={28} />
+                <FaSignOutAlt />
+                <span>Logout</span>
               </button>
-
-              {open && (
-                <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg overflow-hidden">
-                  <Link
-                    to="/admin/dashboard"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Dashboard
-                  </Link>
-
-                  <Link
-                    to="/admin/users"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Manage Users
-                  </Link>
-
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 flex items-center gap-2"
-                  >
-                    <FaSignOutAlt /> Logout
-                  </button>
-                </div>
-              )}
             </div>
-
           </div>
         </div>
       </nav>
