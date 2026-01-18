@@ -49,6 +49,7 @@ const ClothingHome = () => {
       <LatestCollection />
       <BestSeller/>
       <NewsletterBox />
+      <br/>
       <Footer/>
     </div>
   );
