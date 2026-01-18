@@ -14,6 +14,10 @@ import ResetPassword from "./Pages/ResetPassword.jsx";
 import UserHome from "./Pages/UserHome.jsx";
 import AdminHome from "./Pages/AdminHome.jsx";
 import AdminUsers from "./Pages/AdminUsers.jsx";
+import Cart from "./Pages/cart.jsx";
+import Collection from "./Pages/collection.jsx";
+import PlaceOrder from "./Pages/PlaceOrder.jsx";
+import Orders from "./Pages/Orders.jsx";
 
 // Components / Headers
 import Header from "./components/Header.jsx";
@@ -61,14 +65,12 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* User Protected */}
-        <Route
-          path="/user-home"
-          element={
-            <UserRoute>
-              <UserHome />
-            </UserRoute>
-          }
-        />
+        <Route path="/user-home"element={ <UserRoute> <UserHome /> </UserRoute>} />
+         <Route path="/cart"element={ <UserRoute> <Cart /> </UserRoute>} />
+          <Route path="/collection"element={ <UserRoute> <Collection /> </UserRoute>} />
+            <Route path="/placeorder"element={ <UserRoute> <PlaceOrder /> </UserRoute>} />
+             <Route path="/order"element={ <UserRoute> <Orders /> </UserRoute>} />
+            
 
         {/* Admin Protected */}
         <Route
