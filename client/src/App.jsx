@@ -18,6 +18,7 @@ import Cart from "./Pages/cart.jsx";
 import Collection from "./Pages/collection.jsx";
 import PlaceOrder from "./Pages/PlaceOrder.jsx";
 import Orders from "./Pages/Orders.jsx";
+import ClothingHome from "./Pages/ClothingHome.jsx";
 
 // Components / Headers
 import Header from "./components/Header.jsx";
@@ -70,6 +71,8 @@ const App = () => {
           <Route path="/collection"element={ <UserRoute> <Collection /> </UserRoute>} />
             <Route path="/placeorder"element={ <UserRoute> <PlaceOrder /> </UserRoute>} />
              <Route path="/order"element={ <UserRoute> <Orders /> </UserRoute>} />
+               <Route path="/clothing-home"element={ <UserRoute> <ClothingHome /> </UserRoute>} />
+
             
 
         {/* Admin Protected */}

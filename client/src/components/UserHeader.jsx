@@ -107,10 +107,10 @@ const UserHeader = () => {
                 {openProduct && (
                   <div className="absolute top-full left-0 mt-3 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
                     <Link
-                      to="/collection"
+                      to="/clothing-home"
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      All Products
+                      Clothing
                     </Link>
                     <Link
                       to="/product/category"
