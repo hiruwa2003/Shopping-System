@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 // Pages
 import Home from "./Pages/Home.jsx";
-import Product from "./Pages/Product.jsx";
 import Contact from "./Pages/Contact.jsx";
 import About from "./Pages/About.jsx";
 import Signup from "./Pages/SignUp.jsx";
@@ -19,11 +18,14 @@ import Collection from "./Pages/collection.jsx";
 import PlaceOrder from "./Pages/PlaceOrder.jsx";
 import Orders from "./Pages/Orders.jsx";
 import ClothingHome from "./Pages/ClothingHome.jsx";
+import ClothingProduct from "./Pages/ClothingProduct.jsx";
+import ProductItem from "./components/ProductItem.jsx";
 
 // Components / Headers
 import Header from "./components/Header.jsx";
 import UserHeader from "./components/UserHeader.jsx";
 import AdminHeader from "./components/AdminHeader.jsx";
+
 
 // ✅ Optional: simple admin route protection
 const AdminRoute = ({ children }) => {
@@ -54,7 +56,6 @@ const App = () => {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
-        <Route path="/product" element={<Product />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
@@ -72,6 +73,9 @@ const App = () => {
             <Route path="/placeorder"element={ <UserRoute> <PlaceOrder /> </UserRoute>} />
              <Route path="/order"element={ <UserRoute> <Orders /> </UserRoute>} />
                <Route path="/clothing-home"element={ <UserRoute> <ClothingHome /> </UserRoute>} />
+                <Route path="/clothing-product/:ClothingProductId"element={ <UserRoute> <ClothingProduct /> </UserRoute>} />
+                <Route path="/clothing-productItem"element={ <UserRoute> <ProductItem /> </UserRoute>} />
+
 
             
 
