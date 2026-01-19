@@ -6,7 +6,7 @@ import ProductItem from "../components/ProductItem.jsx";
 import Footer from "../components/Footer.jsx";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products , } = useContext(ShopContext);
 
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);

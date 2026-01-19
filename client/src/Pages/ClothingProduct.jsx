@@ -7,7 +7,7 @@ import Footer from "../components/Footer.jsx";
 
 const ClothingProduct = () => {
   const { ClothingProductId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart , getCartCount} = useContext(ShopContext);
   const [productData, setProductData] = useState(null);
   const [mainImage, setMainImage] = useState("");
   const [size, setSize] = useState("");
@@ -117,7 +117,7 @@ const ClothingProduct = () => {
           </div>
 
           {/* Add to Cart */}
-          <button
+          <button onClick={()=>addToCart(productData._id,size)}
             className="bg-orange-500 text-white text-sm font-medium
                        px-4 py-2 rounded-md w-fit
                        hover:bg-orange-600 active:scale-95 transition"

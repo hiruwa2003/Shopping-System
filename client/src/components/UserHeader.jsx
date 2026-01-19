@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -12,14 +12,23 @@ import {
   FaBars,
   FaTimes,
   FaChevronDown,
+  FaShoppingCart,
 } from "react-icons/fa";
-
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const UserHeader = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const { getCartCount } = useContext(ShopContext);
+
+  // ✅ Correct cart visibility logic
+  const showCartIcon =
+    location.pathname.startsWith("/clothing-product") ||
+    location.pathname.startsWith("/cart");
 
   const handleLogout = () => {
     localStorage.clear();
@@ -65,7 +74,11 @@ const UserHeader = () => {
           <div className="flex justify-between items-center h-16">
             {/* LOGO */}
             <Link to="/user-home" className="flex items-center gap-2">
-              <img src="/logo.png" alt="logo" className="w-10 h-10 rounded-full" />
+              <img
+                src="/logo.png"
+                alt="logo"
+                className="w-10 h-10 rounded-full"
+              />
               <span className="text-xl font-bold text-white">
                 Ceylon<span className="text-orange-400">Cart</span>
               </span>
@@ -77,13 +90,13 @@ const UserHeader = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className="text-white hover:text-orange-400"
+                  className="text-white hover:text-orange-400 transition"
                 >
                   {link.name}
                 </Link>
               ))}
 
-              {/* PRODUCT */}
+              {/* PRODUCT DROPDOWN */}
               <div className="relative">
                 <button
                   onClick={() => setOpenProduct(!openProduct)}
@@ -93,14 +106,23 @@ const UserHeader = () => {
                 </button>
 
                 {openProduct && (
-                  <div className="absolute bg-white mt-3 rounded shadow w-44">
-                    <Link className="block px-4 py-2 hover:bg-gray-100" to="/clothing-home">
+                  <div className="absolute mt-3 bg-white rounded shadow w-44 z-50">
+                    <Link
+                      to="/clothing-home"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Clothing
                     </Link>
-                    <Link className="block px-4 py-2 hover:bg-gray-100" to="/product/category">
+                    <Link
+                      to="/product/category"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Categories
                     </Link>
-                    <Link className="block px-4 py-2 hover:bg-gray-100" to="/product/offers">
+                    <Link
+                      to="/product/offers"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Offers
                     </Link>
                   </div>
@@ -108,9 +130,32 @@ const UserHeader = () => {
               </div>
             </div>
 
-            {/* RIGHT */}
-            <div className="flex items-center gap-4 relative">
-             
+            {/* RIGHT SECTION */}
+            <div className="flex items-center gap-4">
+              {/* CART ICON */}
+              {showCartIcon && (
+                <Link
+                  to="/cart"
+                  className="relative flex items-center justify-center
+                             p-2 rounded-full
+                             text-white hover:text-orange-400
+                             hover:bg-white/10 transition"
+                  aria-label="Cart"
+                >
+                  <FaShoppingCart size={22} />
+
+                  {getCartCount() > 0 && (
+                    <span
+                      className="absolute -top-1 -right-1
+                                 bg-orange-500 text-white text-[10px]
+                                 w-5 h-5 flex items-center justify-center
+                                 rounded-full font-semibold"
+                    >
+                      {getCartCount()}
+                    </span>
+                  )}
+                </Link>
+              )}
 
               {/* PROFILE */}
               <div className="relative">
@@ -123,11 +168,17 @@ const UserHeader = () => {
                 </button>
 
                 {openProfile && (
-                  <div className="absolute right-0 mt-3 bg-white rounded shadow w-40">
-                    <Link className="block px-4 py-2 hover:bg-gray-100" to="/user/profile">
+                  <div className="absolute right-0 mt-3 bg-white rounded shadow w-40 z-50">
+                    <Link
+                      to="/user/profile"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       My Profile
                     </Link>
-                    <Link className="block px-4 py-2 hover:bg-gray-100" to="/user/orders">
+                    <Link
+                      to="/user/orders"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       My Orders
                     </Link>
                     <button
@@ -141,8 +192,11 @@ const UserHeader = () => {
                 )}
               </div>
 
-              {/* MOBILE */}
-              <button onClick={() => setOpenMenu(!openMenu)} className="md:hidden text-white">
+              {/* MOBILE MENU */}
+              <button
+                onClick={() => setOpenMenu(!openMenu)}
+                className="md:hidden text-white"
+              >
                 {openMenu ? <FaTimes /> : <FaBars />}
               </button>
             </div>

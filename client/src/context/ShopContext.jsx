@@ -1,5 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { products } from "../assets/assets";
+import { toast } from "react-toastify";
+
 
 export const ShopContext = createContext();
 
@@ -8,6 +10,74 @@ const ShopContextProvider = (props) => {
   const delivery_Charge = 200;
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(true);
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = async (ItemId,size) => {
+
+      if (!size) {
+          toast.error("Please select a size before adding to cart.");
+          return;
+      }
+      let cartData = structuredClone(cartItems);
+
+      if (cartData[ItemId]) {
+           if (cartData[ItemId][size]) {
+              cartData[ItemId][size] += 1;
+           } else {
+              cartData[ItemId][size] = 1;
+           }
+      }
+      else {
+          cartData[ItemId] = {};
+          cartData[ItemId][size] = 1;
+      }
+
+      setCartItems(cartData);
+  }
+
+  const getCartCount = () => {
+      let count = 0;
+      for(const items in cartItems){
+          for(const item in cartItems[items]){
+              try{
+                 if(cartItems[items][item] > 0){
+                     count += cartItems[items][item];
+                 }
+              } catch(error){
+              }
+          }
+      }
+      return count;
+  }
+
+  const updateQuantity = async (ItemId, size, quantity) => {
+    let cartData = structuredClone(cartItems);
+
+    if (cartData[ItemId]) {
+      if (cartData[ItemId][size]) {
+        cartData[ItemId][size] = quantity;
+      }
+    }
+
+    setCartItems(cartData);
+  };
+
+
+   const getCartAmount =  () => {
+     let totalAmount = 0;
+      for (const items in cartItems) {
+        let itemInfo = products.find((product) => product._id === items);
+        for(const item in cartItems[items]){
+            try{
+               if(cartItems[items][item] > 0){
+                   totalAmount += itemInfo.price * cartItems[items][item];
+               }
+            } catch(error){
+            }
+        }
+      }
+      return totalAmount;
+   }
 
   const value = {
     products,
@@ -17,7 +87,13 @@ const ShopContextProvider = (props) => {
     setSearch,
     showSearchBar,
     setShowSearchBar,
-  };
+    cartItems,
+    addToCart,
+    getCartCount,
+    updateQuantity,
+    getCartAmount,
+};
+
   return (
     <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>
   );

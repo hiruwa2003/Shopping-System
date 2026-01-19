@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Pages
 import Home from "./Pages/Home.jsx";
@@ -100,6 +102,7 @@ const App = () => {
         {/* Fallback */}
         <Route path="*" element={<div className="p-6 text-xl">Page Not Found</div>} />
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

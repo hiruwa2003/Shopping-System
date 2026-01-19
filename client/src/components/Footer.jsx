@@ -1,157 +1,128 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faFacebookF, 
-  faTwitter, 
-  faLinkedinIn, 
-  faInstagram,
-  faGithub,
-  
-} from '@fortawesome/free-brands-svg-icons';
-import { 
-  faEnvelope, 
-  faPhone, 
-  faMapMarkerAlt,
-  faChevronRight
-} from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import {
+	FaFacebookF,
+	FaInstagram,
+	FaTwitter,
+	FaLinkedinIn,
+	FaEnvelope,
+	FaPhoneAlt,
+	FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+	const currentYear = new Date().getFullYear();
 
-  return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
-      <div className="container mx-auto px-4">
-        
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          
-          {/* Company Info & Logo */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-black-500 to-black-600 flex items-center justify-center">
-                    <img src="/logo.png" alt="Logo" className="w-10 h-10 rounded-full" />
-                </div>
-                <div className="absolute -inset-2 bg-gradient-to-r from-orange-500/30 to-orange-600/30 rounded-full blur-lg"></div>
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-black-400 to-orange-500 bg-clip-text text-transparent">
-                  CeylonCart
-                </h2>
-                <p className="text-gray-400 text-sm">Professional Solutions</p>
-              </div>
-            </div>
-            <p className="text-gray-300 leading-relaxed">
-              We deliver cutting-edge solutions with excellence and innovation at our core.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 transition-all duration-300 flex items-center justify-center group">
-                <FontAwesomeIcon icon={faFacebookF} className="text-gray-400 group-hover:text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-400 transition-all duration-300 flex items-center justify-center group">
-                <FontAwesomeIcon icon={faTwitter} className="text-gray-400 group-hover:text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-700 transition-all duration-300 flex items-center justify-center group">
-                <FontAwesomeIcon icon={faLinkedinIn} className="text-gray-400 group-hover:text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-pink-600 transition-all duration-300 flex items-center justify-center group">
-                <FontAwesomeIcon icon={faInstagram} className="text-gray-400 group-hover:text-white" />
-              </a>
-            </div>
-          </div>
+	return (
+		<footer className="bg-gradient-to-b from-slate-950 to-slate-900 text-white">
+			<div className="mx-auto max-w-7xl px-6 py-12">
+				<div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+					{/* Brand */}
+					<div className="space-y-4">
+						<div className="flex items-center gap-3">
+							<div className="h-12 w-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 p-[2px]">
+								<div className="flex h-full w-full items-center justify-center rounded-full bg-slate-950">
+									<img src="/logo.png" alt="Logo" className="h-8 w-8 rounded-full" />
+								</div>
+							</div>
+							<div>
+								<h2 className="text-xl font-bold">
+									Ceylon<span className="text-orange-400">Cart</span>
+								</h2>
+								<p className="text-xs text-gray-400">Style, comfort, and value.</p>
+							</div>
+						</div>
+						<p className="text-sm text-gray-400">
+							Discover premium clothing with fast delivery and trusted quality.
+						</p>
+						<div className="flex items-center gap-3">
+							<a href="#" className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 hover:bg-orange-500 transition-colors">
+								<FaFacebookF className="text-sm" />
+							</a>
+							<a href="#" className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 hover:bg-orange-500 transition-colors">
+								<FaInstagram className="text-sm" />
+							</a>
+							<a href="#" className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 hover:bg-orange-500 transition-colors">
+								<FaTwitter className="text-sm" />
+							</a>
+							<a href="#" className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 hover:bg-orange-500 transition-colors">
+								<FaLinkedinIn className="text-sm" />
+							</a>
+						</div>
+					</div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-700">Quick Links</h3>
-            <ul className="space-y-3">
-              {['About Us', 'Services', 'Portfolio', 'Careers', 'Blog', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                    <FontAwesomeIcon icon={faChevronRight} className="text-orange-500 text-xs mr-3 group-hover:translate-x-1 transition-transform" />
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+					{/* Links */}
+					<div>
+						<h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+							Quick Links
+						</h3>
+						<ul className="mt-4 space-y-2 text-sm text-gray-400">
+							<li><a className="hover:text-white transition-colors" href="/user-home">Home</a></li>
+							<li><a className="hover:text-white transition-colors" href="/collection">Collection</a></li>
+							<li><a className="hover:text-white transition-colors" href="/about">About</a></li>
+							<li><a className="hover:text-white transition-colors" href="/contact">Contact</a></li>
+						</ul>
+					</div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-700">Services</h3>
-            <ul className="space-y-3">
-              {['Web Development', 'Mobile Apps', 'UI/UX Design', 'Digital Marketing', 'SEO Optimization', 'Cloud Solutions'].map((service) => (
-                <li key={service}>
-                  <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                    <FontAwesomeIcon icon={faChevronRight} className="text-orange-500 text-xs mr-3 group-hover:translate-x-1 transition-transform" />
-                    {service}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+					{/* Support */}
+					<div>
+						<h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+							Support
+						</h3>
+						<ul className="mt-4 space-y-2 text-sm text-gray-400">
+							<li><a className="hover:text-white transition-colors" href="#">FAQs</a></li>
+							<li><a className="hover:text-white transition-colors" href="#">Shipping</a></li>
+							<li><a className="hover:text-white transition-colors" href="#">Returns</a></li>
+							<li><a className="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+						</ul>
+					</div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-700">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="text-orange-500 mt-1 mr-3" />
-                <span className="text-gray-300">colombo<br />Sri Lanka</span>
-              </li>
-              <li className="flex items-center">
-                <FontAwesomeIcon icon={faPhone} className="text-orange-500 mr-3" />
-                <a href="tel:+(94) 77 695 7704" className="text-gray-300 hover:text-white transition-colors">(+94 77 695 7704) </a>
-              </li>
-              <li className="flex items-center">
-                <FontAwesomeIcon icon={faEnvelope} className="text-orange-500 mr-3" />
-                <a href="hirushadilshan890@gmail.com" className="text-gray-300 hover:text-white transition-colors">hirushadilshan890@gmail.com</a>
-              </li>
-            </ul>
-            
-            {/* Newsletter */}
-            <div className="mt-8">
-              <h4 className="text-lg font-semibold mb-3">Newsletter</h4>
-              <div className="flex">
-                <input 
-                  type="email" 
-                  placeholder="Your email" 
-                  className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-r-lg font-medium hover:opacity-90 transition-opacity">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+					{/* Contact + Newsletter */}
+					<div>
+						<h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+							Contact
+						</h3>
+						<ul className="mt-4 space-y-3 text-sm text-gray-400">
+							<li className="flex items-start gap-3">
+								<FaMapMarkerAlt className="mt-1 text-orange-400" />
+								<span>Colombo, Sri Lanka</span>
+							</li>
+							<li className="flex items-center gap-3">
+								<FaPhoneAlt className="text-orange-400" />
+								<a className="hover:text-white transition-colors" href="tel:+94776957704">(+94) 77 695 7704</a>
+							</li>
+							<li className="flex items-center gap-3">
+								<FaEnvelope className="text-orange-400" />
+								<a className="hover:text-white transition-colors" href="mailto:hirushadilshan890@gmail.com">hirushadilshan890@gmail.com</a>
+							</li>
+						</ul>
 
-       
+						<div className="mt-5">
+							<p className="text-xs text-gray-400">Subscribe for updates</p>
+							<div className="mt-2 flex overflow-hidden rounded-lg border border-slate-700">
+								<input
+									type="email"
+									placeholder="Your email"
+									className="w-full bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none"
+								/>
+								<button className="bg-orange-500 px-4 text-sm font-medium hover:bg-orange-600">
+									Join
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              <p>© {currentYear} codeCraft All rights reserved.</p>
-            </div>
-            
-            <div className="flex items-center space-x-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Cookie Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center">
-                <FontAwesomeIcon icon={faGithub} className="mr-2" />
-                GitHub
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center">
-                <FontAwesomeIcon icon={faLinkedinIn} className="mr-2" />
-                LinkedIn
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+				<div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-800 pt-6 text-xs text-gray-400 md:flex-row">
+					<span>© {currentYear} CeylonCart. All rights reserved.</span>
+					<div className="flex items-center gap-4">
+						<a href="#" className="hover:text-white transition-colors">Terms</a>
+						<a href="#" className="hover:text-white transition-colors">Privacy</a>
+						<a href="#" className="hover:text-white transition-colors">Cookies</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+	);
 };
 
 export default Footer;
