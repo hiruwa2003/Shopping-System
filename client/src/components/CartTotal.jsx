@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext.jsx";
 
-const CartTotal = () => {
-  const { getCartAmount, currency, delivery_Charge } = useContext(ShopContext);
+const CartTotal = ({ showCheckout = true }) => {
+  const { getCartAmount, currency, delivery_Charge, navigate } = useContext(ShopContext);
 
   const subTotal = getCartAmount();
   const total = subTotal === 0 ? 0 : subTotal + delivery_Charge;
@@ -45,16 +45,19 @@ const CartTotal = () => {
       </p>
 
       {/* Checkout button */}
-      <button
-        disabled={subTotal === 0}
-        className={`mt-4 w-full rounded-lg py-2.5 text-sm font-semibold text-white transition ${
-          subTotal === 0
-            ? "cursor-not-allowed bg-gray-300"
-            : "bg-orange-500 hover:bg-orange-600 active:scale-[0.99]"
-        }`}
-      >
-        Proceed to Checkout
-      </button>
+      {showCheckout ? (
+        <button
+          onClick={() => navigate("/placeorder")}
+          disabled={subTotal === 0}
+          className={`mt-4 w-full rounded-lg py-2.5 text-sm font-semibold text-white transition ${
+            subTotal === 0
+              ? "cursor-not-allowed bg-gray-300"
+              : "bg-orange-500 hover:bg-orange-600 active:scale-[0.99]"
+          }`}
+        >
+          Proceed to Checkout
+        </button>
+      ) : null}
     </div>
   );
 };
