@@ -11,6 +11,7 @@ import { faCcVisa, faPaypal } from "@fortawesome/free-brands-svg-icons";
 import Title from "../components/Title.jsx";
 import CartTotal from "../components/CartTotal.jsx";
 import { ShopContext } from "../context/ShopContext.jsx";
+import Footer from "../components/Footer.jsx";
 
 
 const PlaceOrder = () => {
@@ -19,6 +20,7 @@ const PlaceOrder = () => {
   const {navigate} = React.useContext(ShopContext);
 
   return (
+    <>
     <div className="min-h-[80vh] bg-gradient-to-b from-white via-slate-50 to-white">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:flex-row">
         {/* Left Section */}
@@ -289,6 +291,8 @@ const PlaceOrder = () => {
         </aside>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
