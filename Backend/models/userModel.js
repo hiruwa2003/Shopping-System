@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   resetOtpExpireAt: { type: Number, default: 0 },
   lastSeen: { type: Date, default: Date.now },
   isActive: { type: Boolean, default: true },
+  cartData: { type: Object, default: {} },
 });
 
 const userModel = mongoose.models.user || mongoose.model("user", userSchema);

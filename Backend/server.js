@@ -7,6 +7,7 @@ import authRouter from './routes/authRoutes.js';
 import userRouter from "./routes/userRoutes.js";
 import clothingProductRouter from "./routes/ClothingProductRoute.js";
 import connectCloudinary from "./Config/cloudinary.js";
+import cartRoutes from "./routes/CartRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ app.get("/", (req, res) => res.send("API Working"));
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/clothing-product', clothingProductRouter);
+app.use('/api/cart', cartRoutes);
 
 app.listen(port, () =>
   console.log(`Server Working with :${port}`)
