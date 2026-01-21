@@ -176,7 +176,7 @@ const UserHeader = () => {
                       My Profile
                     </Link>
                     <Link
-                      to="/user/orders"
+                      to="/order"
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       My Orders

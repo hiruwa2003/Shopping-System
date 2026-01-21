@@ -5,12 +5,15 @@ import cookieParser from "cookie-parser";
 import connectDB from "./Config/mongoDB.js";
 import authRouter from './routes/authRoutes.js';
 import userRouter from "./routes/userRoutes.js";
+import clothingProductRouter from "./routes/ClothingProductRoute.js";
+import connectCloudinary from "./Config/cloudinary.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // DB connect AFTER dotenv loaded
 connectDB();
+connectCloudinary();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,6 +27,7 @@ app.get("/", (req, res) => res.send("API Working"));
 
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
+app.use('/api/clothing-product', clothingProductRouter);
 
 app.listen(port, () =>
   console.log(`Server Working with :${port}`)
