@@ -1,12 +1,13 @@
 import express from "express";
-import { addToCart, updateCart, getCart } from "../controllers/CartController.js";
-import userAuth from "../middleware/userAuth.js";
+import { addToCart, updateCart, getCart, removeFromCart } from "../controllers/CartController.js";
+import cartAuth from "../middleware/cartAuth.js";
 
 
 const CartRoutes = express.Router();
 
-CartRoutes.post("/add", userAuth, addToCart);
-CartRoutes.post("/update", userAuth, updateCart);
-CartRoutes.get("/get", userAuth, getCart);
+CartRoutes.post("/add", cartAuth, addToCart);
+CartRoutes.post("/update", cartAuth, updateCart);
+CartRoutes.post("/remove", cartAuth, removeFromCart);
+CartRoutes.get("/get", cartAuth, getCart);
 
 export default CartRoutes;

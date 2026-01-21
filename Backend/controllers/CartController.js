@@ -1,4 +1,4 @@
-import userModel from "../models/userModel.js";
+import CartModel from "../models/cartModel.js";
 
 export const addToCart = async (req, res) => {
   try {
@@ -19,16 +19,18 @@ export const addToCart = async (req, res) => {
 
     const qty = Number.isFinite(Number(quantity)) ? Number(quantity) : 1;
 
-    const user = await userModel.findById(userId);
+    let cart = await CartModel.findOne({ userId });
 
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+    if (!cart) {
+      cart = new CartModel({ userId, items: {} });
     }
 
-    const cartData = user.cartData || {};
+    const cartData = { ...(cart.items || {}) };
 
     if (!cartData[cartItemId]) {
       cartData[cartItemId] = {};
+    } else {
+      cartData[cartItemId] = { ...cartData[cartItemId] };
     }
 
     if (cartData[cartItemId][size]) {
@@ -37,8 +39,9 @@ export const addToCart = async (req, res) => {
       cartData[cartItemId][size] = qty;
     }
 
-    user.cartData = cartData;
-    await user.save();
+    cart.items = cartData;
+    cart.markModified("items");
+    await cart.save();
 
     return res.json({ success: true, cartData });
   } catch (error) {
@@ -71,16 +74,18 @@ export const updateCart = async (req, res) => {
         .json({ success: false, message: "Quantity must be a number" });
     }
 
-    const user = await userModel.findById(userId);
+    let cart = await CartModel.findOne({ userId });
 
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+    if (!cart) {
+      cart = new CartModel({ userId, items: {} });
     }
 
-    const cartData = user.cartData || {};
+    const cartData = { ...(cart.items || {}) };
 
     if (!cartData[cartItemId]) {
       cartData[cartItemId] = {};
+    } else {
+      cartData[cartItemId] = { ...cartData[cartItemId] };
     }
 
     if (qty <= 0) {
@@ -92,8 +97,9 @@ export const updateCart = async (req, res) => {
       cartData[cartItemId][size] = qty;
     }
 
-    user.cartData = cartData;
-    await user.save();
+    cart.items = cartData;
+    cart.markModified("items");
+    await cart.save();
 
     return res.json({ success: true, cartData });
   } catch (error) {
@@ -109,13 +115,54 @@ export const getCart = async (req, res) => {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    const user = await userModel.findById(userId).select("cartData");
+    const cart = await CartModel.findOne({ userId });
 
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+    return res.json({ success: true, cartData: cart?.items || {} });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const removeFromCart = async (req, res) => {
+  try {
+    const { itemId, productId, size } = req.body;
+    const cartItemId = itemId || productId;
+    const userId = req.user?._id || req.body.userId;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    return res.json({ success: true, cartData: user.cartData || {} });
+    if (!cartItemId || !size) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Item id and size are required" });
+    }
+
+    const cart = await CartModel.findOne({ userId });
+
+    if (!cart) {
+      return res.json({ success: true, cartData: {} });
+    }
+
+    const cartData = { ...(cart.items || {}) };
+
+    if (cartData[cartItemId]) {
+      cartData[cartItemId] = { ...cartData[cartItemId] };
+    }
+
+    if (cartData[cartItemId]?.[size] !== undefined) {
+      delete cartData[cartItemId][size];
+      if (Object.keys(cartData[cartItemId]).length === 0) {
+        delete cartData[cartItemId];
+      }
+    }
+
+    cart.items = cartData;
+    cart.markModified("items");
+    await cart.save();
+
+    return res.json({ success: true, cartData });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

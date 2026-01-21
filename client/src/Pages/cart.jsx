@@ -7,7 +7,7 @@ import Footer from "../components/Footer.jsx";
 import CartTotal from "../components/CartTotal.jsx";
 
 const Cart = () => {
-  const { products, currency, cartItems , updateQuantity} = useContext(ShopContext);
+  const { products, currency, cartItems, updateQuantity, removeFromCart } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const Cart = () => {
                     </div>
 
                     <button
-                      onClick={() => updateQuantity(item._id, item.size, 0)}
+                      onClick={() => removeFromCart(item._id, item.size)}
                       className="flex items-center justify-center rounded-full border border-gray-200 p-2 text-gray-500 hover:border-orange-300 hover:text-orange-500"
                       aria-label="Remove item"
                     >
