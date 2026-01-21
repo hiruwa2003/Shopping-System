@@ -99,7 +99,7 @@ const ClothingProduct = () => {
           <div>
             <p className="font-medium mb-2">Select Size</p>
             <div className="flex flex-wrap gap-3">
-              {productData.sizes?.map((item, index) => (
+              {productData.size?.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => setSize(item)}

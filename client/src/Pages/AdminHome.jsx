@@ -23,7 +23,7 @@ const AdminHome = () => {
           <a href="/admin/users" className="block px-4 py-2 rounded hover:bg-blue-700">
             Users
           </a>
-          <a href="#" className="block px-4 py-2 rounded hover:bg-blue-700">
+          <a href="/admin/clothing-product" className="block px-4 py-2 rounded hover:bg-blue-700">
             Products
           </a>
           <a href="#" className="block px-4 py-2 rounded hover:bg-blue-700">

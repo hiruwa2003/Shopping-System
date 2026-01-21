@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,12 +22,18 @@ import Orders from "./Pages/Orders.jsx";
 import ClothingHome from "./Pages/ClothingHome.jsx";
 import ClothingProduct from "./Pages/ClothingProduct.jsx";
 import ProductItem from "./components/ProductItem.jsx";
+import AdminAddClothing from "./Pages/AdminAddClothing.jsx";
+import AdminLayout from "./Pages/AdminLayout.jsx";
+import AdminListProduct from "./Pages/AdminListProduct.jsx";
+import AdminOrders from "./Pages/AdminOrders.jsx";
+
 
 // Components / Headers
 import Header from "./components/Header.jsx";
 import UserHeader from "./components/UserHeader.jsx";
 import AdminHeader from "./components/AdminHeader.jsx";
 
+export const backendURL = "http://localhost:5000";
 
 // ✅ Optional: simple admin route protection
 const AdminRoute = ({ children }) => {
@@ -41,7 +47,6 @@ const UserRoute = ({ children }) => {
 };
 
 const App = () => {
-  const location = useLocation();
   const role = localStorage.getItem("role");
 
   // 🔑 Header control
@@ -51,6 +56,7 @@ const App = () => {
     return <Header />;
   };
 
+ 
   return (
     <div className="min-h-screen bg-gray-50">
       {renderHeader()}
@@ -82,22 +88,29 @@ const App = () => {
             
 
         {/* Admin Protected */}
+        <Route path="/admin-home" element={ <AdminRoute> <AdminHome /> </AdminRoute>  }/>
+        <Route path="/admin/users" element={ <AdminRoute> <AdminUsers /> </AdminRoute> } />
+
         <Route
-          path="/admin-home"
+          path="/admin"
           element={
             <AdminRoute>
-              <AdminHome />
+              <AdminLayout />
             </AdminRoute>
           }
-        />
+        >
+          <Route index element={<AdminAddClothing />} />
+          <Route path="add-product" element={<AdminAddClothing />} />
+          <Route path="list-product" element={<AdminListProduct />} />
+          <Route path="orders" element={<AdminOrders />} />
+        </Route>
+
         <Route
-          path="/admin/users"
-          element={
-            <AdminRoute>
-              <AdminUsers />
-            </AdminRoute>
-          }
+          path="/admin/clothing-product"
+          element={<Navigate to="/admin/add-product" replace />}
         />
+
+
 
         {/* Fallback */}
         <Route path="*" element={<div className="p-6 text-xl">Page Not Found</div>} />
